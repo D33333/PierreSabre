@@ -18,6 +18,10 @@ public class Humain {
 		return argent;
 	}
 	
+	public void setArgent(int montant) {
+		this.argent = montant;
+	}
+	
 	public void gagnerArgent(int gain) {
 		this.argent += gain;
 	}
