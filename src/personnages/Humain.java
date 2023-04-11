@@ -2,12 +2,14 @@ package personnages;
 
 public class Humain {
 	private String nom;
-	private String boissonFav;
+	private String boissonFavorite;
 	private int argent;
+	protected int nbConnaissance = 0;
+	protected Humain[] memoire = new Humain[30];
 	
 	public Humain(String nom, String boissonFav, int argent) {
 		this.nom = nom;
-		this.boissonFav = boissonFav;
+		this.boissonFavorite = boissonFav;
 		this.argent = argent;
 	}
 	
@@ -22,24 +24,24 @@ public class Humain {
 		this.argent = montant;
 	}
 	
-	public void gagnerArgent(int gain) {
+	protected void gagnerArgent(int gain) {
 		this.argent += gain;
 	}
 	
-	public void perdreArgent(int perte) {
+	protected void perdreArgent(int perte) {
 		this.argent -= perte;
 	}
 	
-	public void parler(String texte) {
+	protected void parler(String texte) {
 		System.out.println('(' + nom + ") - " + texte);
 	}
 	
 	public void direBonjour() {
-		parler("Bonjour ! Je m'appelle "+nom+" et j'aime boire du "+boissonFav+".");
+		parler("Bonjour ! Je m'appelle "+nom+" et j'aime boire du "+boissonFavorite+".");
 	}
 	
 	public void boire() {
-		parler("Mmm, un bon verre de "+boissonFav+" ! GLOUPS !");
+		parler("Mmm, un bon verre de "+boissonFavorite+" ! GLOUPS !");
 	}
 	
 	public void acheter(String bien, int prix) {
@@ -51,5 +53,35 @@ public class Humain {
 		}
 	}
 	
+	public void faireConnaissanceAvec(Humain autreHumain) {
+		this.direBonjour();
+		autreHumain.repondre(this);
+		memoriser(autreHumain);
+	}
+
+	private void repondre(Humain humain) {
+		this.direBonjour();
+		this.memoriser(humain);
+	}
+
+	private void memoriser(Humain humain) {
+		for(int i = 29; i>0; i--) {
+			memoire[i] = memoire[i-1];
+		} //le 1er élément est libre
+		memoire[0] = humain;
+		nbConnaissance = nbConnaissance % 3;
+		nbConnaissance++;
+	}
 	
+	public void listerConnaissance() {
+		String connaissances = "";
+		int taille_mem = memoire.length;
+		connaissances = memoire[0].getNom();
+		int i = 1;
+		while ((i < taille_mem) && (memoire[i] != null)) {
+				connaissances = memoire[i].getNom() + ", " + connaissances;
+			i++;
+		}
+		this.parler("Je connais beaucoup de monde dont : "+connaissances);
+	}
 }
