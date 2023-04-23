@@ -69,8 +69,9 @@ public class Humain {
 			memoire[i] = memoire[i-1];
 		} //le 1er élément est libre
 		memoire[0] = humain;
-		nbConnaissance = nbConnaissance % 3;
-		nbConnaissance++;
+		if (nbConnaissance < 30){
+			nbConnaissance++;
+		}
 	}
 	
 	public void listerConnaissance() {
